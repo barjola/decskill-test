@@ -1,0 +1,69 @@
+openapi: 3.0.3
+info:
+  title: Test Decskill
+  version: v0
+servers:
+  - url: http://localhost:8080
+paths:
+  /api/v1/price:
+    get:
+      tags:
+        - price
+      description: Get price for a product and brand at a date
+      parameters:
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+          example: '2020-06-14T10:00:00.000+01:00'
+        - name: productId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 35455
+        - name: brandId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        '200':
+          description: Product price
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PriceModel'
+        '400':
+          description: Bad Request
+        '404':
+          description: Price Not Found
+components:
+  schemas:
+    PriceModel:
+      type: object
+      properties:
+        productId:
+          type: integer
+          format: int64
+        brandId:
+          type: integer
+          format: int64
+        priceList:
+          type: integer
+          format: int64
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        price:
+          type: number
+        currency:
+          type: string
